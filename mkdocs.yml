@@ -1,0 +1,67 @@
+site_name: Winawer Lab Wiki
+site_url: https://winawerlab.github.io/wiki/
+site_description: How things work in the Winawer Lab at NYU. Written and kept up to date by the lab.
+repo_url: https://github.com/WinawerLab/wiki
+repo_name: WinawerLab/wiki
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  features:
+    - content.action.edit
+    - navigation.sections
+    - navigation.top
+    - navigation.indexes
+    - search.suggest
+    - search.highlight
+    - toc.follow
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep purple
+      accent: amber
+      toggle: {icon: material/weather-night, name: Dark mode}
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep purple
+      accent: amber
+      toggle: {icon: material/weather-sunny, name: Light mode}
+  icon:
+    edit: material/pencil
+
+hooks:
+  - hooks/freshness_hook.py
+
+extra_css:
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc: {permalink: true}
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tasklist: {custom_checkbox: true}
+
+nav:
+  - Home: index.md
+  - Joining and leaving:
+      - Joining the lab: joining.md
+      - Leaving the lab: leaving.md
+  - How we work:
+      - Lab culture: how-we-work/culture.md
+      - Who does what (PI and trainees): how-we-work/roles.md
+      - Authorship and publishing: how-we-work/authorship.md
+  - Admin:
+      - Money and reimbursement: admin/money.md
+      - Human subjects and the IRB: admin/human-subjects.md
+      - Places and contacts: admin/places-and-contacts.md
+  - Computing and data:
+      - Where data and files live: computing/data-and-servers.md
+  - About this wiki:
+      - How to edit: about/how-to-edit.md
+      - How it stays up to date: about/keeping-it-fresh.md
+      - Wiki health: about/health.md
+      - The old wiki: about/old-wiki.md

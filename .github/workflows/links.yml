@@ -1,0 +1,45 @@
+# Weekly broken-link check. Opens or updates a "Broken links" issue when it finds any.
+name: Weekly link check
+
+on:
+  schedule:
+    - cron: "11 13 * * 1"   # Mondays 13:11 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check links
+        id: lychee
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --no-progress --max-retries 3 --timeout 30
+            --accept 200..=299,401,403,429
+            "docs/**/*.md" README.md
+          output: lychee-report.md
+          fail: false
+      - name: Open or update the issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create broken-links --color D93F0B --description "Broken links found by the weekly check" 2>/dev/null || true
+          NUM=$(gh issue list --label broken-links --state open --json number -q '.[0].number')
+          if [ "${{ steps.lychee.outputs.exit_code }}" != "0" ]; then
+            { echo "The weekly link check found broken links. Fix the link, or remove it if the page is gone."; echo; cat lychee-report.md; } > body.md
+            if [ -z "$NUM" ]; then gh issue create --title "Broken links" --label broken-links --body-file body.md
+            else gh issue edit "$NUM" --body-file body.md; fi
+          elif [ -n "$NUM" ]; then
+            gh issue close "$NUM" --comment "No broken links this week."
+          fi
+      - name: Report failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: scripts/report_failure.sh

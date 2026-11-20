@@ -1,0 +1,66 @@
+# Builds the site and publishes it to GitHub Pages.
+# Runs on every change to main, and every Monday so that "may be out of date"
+# banners appear on their own as pages age.
+name: Build and publish site
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "23 10 * * 1"   # Mondays 10:23 UTC (5:23 or 6:23 am New York)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  issues: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: List page status (does not block publishing)
+        run: python scripts/check_freshness.py || echo "::warning::Some pages have a broken header. See the list above."
+      - name: Build site
+        run: mkdocs build --strict
+      - name: Check the site was built
+        run: test -f site/index.html && test -f site/about/health/index.html
+      - if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - name: Report failure
+        if: failure() && github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: scripts/report_failure.sh
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
+      - uses: actions/checkout@v4
+        if: failure()
+      - name: Report failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: scripts/report_failure.sh

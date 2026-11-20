@@ -1,0 +1,14 @@
+name: I wish there were a page about…
+description: Ask for a new page. (Or write a short first version yourself.)
+labels: [page-wanted]
+body:
+  - type: textarea
+    id: topic
+    attributes:
+      label: What should the page explain?
+    validations:
+      required: true
+  - type: input
+    id: who
+    attributes:
+      label: Who might know the answer?

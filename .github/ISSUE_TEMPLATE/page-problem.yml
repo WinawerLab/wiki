@@ -1,0 +1,18 @@
+name: Something on a page is wrong
+description: Tell the page owner that something is out of date or unclear.
+labels: [page-problem]
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Which page?
+      description: Filled in for you if you came from the "Report a problem" link.
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What is wrong or unclear?
+      description: If you know the right answer, say so. Even better, click the pencil icon on the page and fix it.
+    validations:
+      required: true

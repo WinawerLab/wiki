@@ -1,0 +1,21 @@
+# Lab members, past and present.
+#
+# The wiki uses this list to check page owners. A page whose owner is not here,
+# or is here with `current: false`, gets flagged as needing a new owner.
+#
+# Joining the lab? Add yourself (this is a good first edit).
+# Leaving? Set `current: false` and hand your pages to someone (see docs/leaving.md).
+#
+# github: your GitHub username, exactly as on github.com
+
+people:
+  - name: Jonathan Winawer
+    github: JWinawer
+    role: PI
+    current: true
+
+  # Current members: please add yourselves, for example
+  # - name: Your Name
+  #   github: your-github-name
+  #   role: PhD student        # PI, postdoc, PhD student, research assistant, undergraduate, visitor
+  #   current: true

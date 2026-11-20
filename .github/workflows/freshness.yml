@@ -1,0 +1,67 @@
+# Weekly freshness check.
+# - Updates the "Wiki freshness report" issue (pages due for a check, by owner).
+# - On the first Monday of each month, posts a comment that @mentions owners,
+#   so they get a GitHub notification. (Edits to an issue body do not notify anyone.)
+# - Closes the issue when nothing needs attention.
+# - Commits .github/freshness-status.json. This records each run, and the commit keeps
+#   GitHub from switching off scheduled workflows after 60 days without activity.
+name: Weekly freshness check
+
+on:
+  schedule:
+    - cron: "41 12 * * 1"   # Mondays 12:41 UTC (7:41 or 8:41 am New York)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pyyaml
+      - name: Run check
+        id: check
+        run: |
+          set +e
+          python scripts/check_freshness.py --report report.md --status .github/freshness-status.json | tee out.txt
+          code=${PIPESTATUS[0]}
+          echo "action=$(grep -o 'ACTION_NEEDED=[a-z]*' out.txt | cut -d= -f2)" >> "$GITHUB_OUTPUT"
+          # 0 = fine, 1 = some broken page headers (reported in the issue), 2 = the check crashed
+          [ "$code" -le 1 ]
+      - name: Update the report issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create freshness-report --color FBCA04 --description "Weekly wiki freshness report" 2>/dev/null || true
+          NUM=$(gh issue list --label freshness-report --state open --json number -q '.[0].number')
+          if [ "${{ steps.check.outputs.action }}" = "true" ]; then
+            if [ -z "$NUM" ]; then
+              gh issue create --title "Wiki freshness report" --label freshness-report --body-file report.md
+            else
+              gh issue edit "$NUM" --body-file report.md
+              if [ "$(date -u +%d)" -le 7 ]; then
+                OWNERS=$(grep -o '^### @[A-Za-z0-9-]*' report.md | sed 's/^### //' | sort -u | tr '\n' ' ')
+                gh issue comment "$NUM" --body "Monthly reminder: some wiki pages are due for a check. ${OWNERS} please see the list above. Checking a page and updating its date takes a few minutes."
+              fi
+            fi
+          elif [ -n "$NUM" ]; then
+            gh issue close "$NUM" --comment "Every page is up to date. Closing until something is due again."
+          fi
+      - name: Commit status file
+        run: |
+          git config user.name "wiki-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/freshness-status.json
+          git commit -m "Weekly freshness check $(date -u +%Y-%m-%d)" || exit 0
+          git push
+      - name: Report failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: scripts/report_failure.sh
