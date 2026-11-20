@@ -21,7 +21,8 @@ Start this checklist about a month before your last day.
 - [ ] **Unfinished papers.** Agree with Jon, in writing, on the plan and on authorship. See
   [Authorship and publishing](how-we-work/authorship.md).
 - [ ] **Your wiki pages.** Find someone to take over each page you own, and put their GitHub
-  name as `owner:`. Then set `current: false` for yourself in `people.yml`. If you forget, the
+  name as `owner:`. Then set `current: false` for yourself in `people.yml`, and ask Jon to move you off the
+  `winawerlab` GitHub team. If you forget, the
   weekly check will flag your pages.
 
 ## Keeping NYU access after you leave

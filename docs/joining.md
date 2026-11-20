@@ -19,9 +19,9 @@ are the ones who just went through it.
 - [ ] **Building and lab access.** Send Jon your NYU ID number. He requests key card access
   to Meyer Hall and suite 957. See [Places and contacts](admin/places-and-contacts.md).
 - [ ] **Lab server and Google Drive.** Ask Jon. See [Where data and files live](computing/data-and-servers.md).
-- [ ] **GitHub.** Make a [GitHub](https://github.com) account if you do not have one. Ask any lab
-  member to add you to the [WinawerLab organization](https://github.com/WinawerLab). This also
-  lets you edit this wiki.
+- [ ] **GitHub.** Make a [GitHub](https://github.com) account if you do not have one. Ask Jon to
+  add you to the `winawerlab` team in the [WinawerLab organization](https://github.com/WinawerLab).
+  This gives you the lab's code repositories and lets you edit this wiki.
 - [ ] **Add yourself to `people.yml`** in this wiki. It is the list of current lab members, and
   the wiki uses it to find page owners. [How to edit](about/how-to-edit.md) shows you how; it
   makes a good first edit.

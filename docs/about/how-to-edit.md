@@ -12,8 +12,8 @@ You do not need to install anything. Everything happens in your web browser on G
 ## Fix or add something on a page (about 1 minute)
 
 1. Click the **pencil icon** at the top right of the page. GitHub opens the page's text.
-   (You need a GitHub account and to be in the [WinawerLab organization](https://github.com/WinawerLab).
-   Ask any lab member.)
+   (You need a GitHub account and to be on the `winawerlab` team in the
+   [WinawerLab organization](https://github.com/WinawerLab). Ask Jon.)
 2. Make your change. Pages are written in
    [Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax),
    which is plain text with a few symbols: `#` for headings, `-` for lists, `**bold**`,

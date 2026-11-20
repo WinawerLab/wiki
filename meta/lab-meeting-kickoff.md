@@ -6,9 +6,9 @@ we work.
 
 ## Before the meeting (Jon)
 
-- [ ] Make sure every lab member is in the WinawerLab GitHub organization with **write** access
-      to the `wiki` repository (Organization → People, and Repository → Settings → Collaborators
-      and teams). Ask people without a GitHub account to make one before the meeting.
+- [ ] Make sure every current lab member is on the `winawerlab` team in the WinawerLab GitHub
+      organization (the team has **Write** access to the `wiki` repository). Ask people without a
+      GitHub account to make one before the meeting.
 - [ ] Fill in the two "Jon to fill in" boxes: [Who does what](../docs/how-we-work/roles.md)
       and "How long things take" in [Authorship](../docs/how-we-work/authorship.md).
       Even rough answers help; they set the tone for the discussion.
