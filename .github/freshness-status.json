@@ -1,0 +1,7 @@
+{
+  "job": "wiki-freshness",
+  "last_attempt": "2026-11-24T00:18:25+00:00",
+  "last_success": "2026-11-24T00:18:25+00:00",
+  "ok": true,
+  "message": "13 pages checked; 5 overdue; 0 broken headers"
+}
